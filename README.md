@@ -13,3 +13,9 @@
     7. 마지막 칸에 정확히 도착해야 이깁니다. 그 이상으로 간 경우 되돌아 갑니다. 
     예를 들어 98에 있는데 5가 나오면, 97로 돌아옵니다. (99, 100, 99, 98, 97)
     
+## 통합테스트 실행 방법
+```
+git clone https://github.com/voyagerwoo/snakes-ladders
+cd snakes-ladders
+./mvnw integration-test
+```
