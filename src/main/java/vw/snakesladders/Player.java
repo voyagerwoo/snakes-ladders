@@ -5,8 +5,8 @@ import java.util.Map;
 public class Player {
     private String name;
     private int cursor = 0;
-    private boolean isWin = false;
-    private boolean isLose = false;
+    private boolean win = false;
+    private boolean lose = false;
     private final Map<Integer, Integer> snakes;
     private final Map<Integer, Integer> ladders;
     private final int goal;
@@ -20,14 +20,10 @@ public class Player {
 
 
     public String play(int dies1, int dies2) {
-        if (isWin || isLose)
+        if (win || lose)
             return "Game over!";
 
         cursor += dies1 + dies2;
-        if (cursor == goal) {
-            isWin = true;
-            return name + " Wins!";
-        }
         if (cursor > goal) {
             cursor = goal - (cursor - goal);
         }
@@ -36,6 +32,11 @@ public class Player {
             cursor = snakes.get(cursor);
         } else if (isPlacedInLadderBox(cursor)) {
             cursor = ladders.get(cursor);
+        }
+
+        if (cursor == goal) {
+            win = true;
+            return name + " Wins!";
         }
 
         return name + " is on square " + cursor;
@@ -58,6 +59,10 @@ public class Player {
     }
 
     public void setLose() {
-        this.isLose = true;
+        this.lose = true;
+    }
+
+    public boolean isWin() {
+        return win;
     }
 }

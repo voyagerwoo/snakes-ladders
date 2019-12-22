@@ -25,7 +25,13 @@ public class SnakesLadders {
     }
 
     public String play(int dies1, int dies2) {
-        String statement = players.get(playerCursor).play(dies1, dies2);
+        Player player = players.get(playerCursor);
+        String statement = player.play(dies1, dies2);
+        if (player.isWin()) {
+            players.stream().filter(it -> it != player).forEach(Player::setLose);
+            return statement;
+        }
+
         if (dies1 == dies2)
             return statement;
         playerCursor = (playerCursor += 1) % numOfPlayer;
