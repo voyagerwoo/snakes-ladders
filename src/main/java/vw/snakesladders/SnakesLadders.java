@@ -16,6 +16,7 @@ public class SnakesLadders {
     public SnakesLadders(int numOfPlayer, int goal, Map<Integer, Integer> snakes, Map<Integer, Integer> ladders) {
         this.numOfPlayer = numOfPlayer;
         this.goal = goal;
+        // todo 뱀과 사다리 유효성 확인
         this.snakes = snakes;
         this.ladders = ladders;
         this.players = IntStream.range(1, numOfPlayer+1)

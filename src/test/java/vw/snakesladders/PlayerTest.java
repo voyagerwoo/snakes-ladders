@@ -50,14 +50,43 @@ public class PlayerTest {
     }
 
     @Test
-    void movePlayerBeyondGoal() {
+    void winPlayer() {
         Player player = new Player("Player 4", emptyMap(), emptyMap(), 100);
+        player.setCursor(92);
+
+        String statement1 = player.play(3, 5);
+        String statement2 = player.play(3, 5);
+
+        assertThat(player.getCursor()).isEqualTo(100);
+        assertThat(statement1).isEqualTo("Player 4 Wins!");
+        assertThat(statement2).isEqualTo("Game over!");
+    }
+
+    @Test
+    void winPlayer1AndLoasPlayer2() {
+        Player player1 = new Player("Player 1", emptyMap(), emptyMap(), 100);
+        Player player2 = new Player("Player 2", emptyMap(), emptyMap(), 100);
+        player1.setCursor(92);
+        player2.setCursor(91);
+
+        String statement1 = player1.play(3, 5);
+        player2.setLose();
+        String statement2 = player2.play(3, 5);
+
+        assertThat(player1.getCursor()).isEqualTo(100);
+        assertThat(statement1).isEqualTo("Player 1 Wins!");
+        assertThat(statement2).isEqualTo("Game over!");
+    }
+
+    @Test
+    void movePlayerBeyondGoal() {
+        Player player = new Player("Player 5", emptyMap(), emptyMap(), 100);
         player.setCursor(98);
 
         String statement = player.play(3, 2);
 
         assertThat(player.getCursor()).isEqualTo(97);
-        assertThat(statement).isEqualTo("Player 4 is on square 97");
+        assertThat(statement).isEqualTo("Player 5 is on square 97");
     }
 
 }
