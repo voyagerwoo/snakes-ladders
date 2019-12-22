@@ -12,6 +12,7 @@ public class SnakesLadders {
     private final Map<Integer, Integer> ladders;
     private final List<Player> players;
     private int playerCursor = 0;
+    private boolean gameOver = false;
 
     public SnakesLadders(int numOfPlayer, int goal, Map<Integer, Integer> snakes, Map<Integer, Integer> ladders) {
         this.numOfPlayer = numOfPlayer;
@@ -29,6 +30,7 @@ public class SnakesLadders {
         String statement = player.play(dies1, dies2);
         if (player.isWin()) {
             players.stream().filter(it -> it != player).forEach(Player::setLose);
+            gameOver = true;
             return statement;
         }
 
@@ -40,5 +42,9 @@ public class SnakesLadders {
 
     List<Player> getPlayers() {
         return players;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
     }
 }
