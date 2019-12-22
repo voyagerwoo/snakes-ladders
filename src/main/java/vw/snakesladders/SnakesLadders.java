@@ -15,9 +15,15 @@ public class SnakesLadders {
     private boolean gameOver = false;
 
     public SnakesLadders(int numOfPlayer, int goal, Map<Integer, Integer> snakes, Map<Integer, Integer> ladders) {
+        if (numOfPlayer < 0)
+            throw new IllegalArgumentException("'numOfPlayer' should be positive integer.");
+        if (goal < 0)
+            throw new IllegalArgumentException("'goal' should be positive integer.");
+        assertSnakesValidation(goal, snakes);
+        assertLaddersValidation(goal, ladders);
+
         this.numOfPlayer = numOfPlayer;
         this.goal = goal;
-        // todo 뱀과 사다리 유효성 확인
         this.snakes = snakes;
         this.ladders = ladders;
         this.players = IntStream.range(1, numOfPlayer+1)
@@ -47,4 +53,28 @@ public class SnakesLadders {
     public boolean isGameOver() {
         return gameOver;
     }
+
+    private void assertSnakesValidation(int goal, Map<Integer, Integer> snakes) {
+        snakes.forEach((key, value) -> {
+            if (value < 0 || key < 0)
+                throw new IllegalArgumentException("'snake' key and value should be positive integer.");
+            if (value > goal || key > goal)
+                throw new IllegalArgumentException("'snake' key and value should be less than 'goal'.");
+            if (key < value)
+                throw new IllegalArgumentException("'snake' key should be larger than value. (key:"+key+", value:"+value+")");
+        });
+    }
+
+    private void assertLaddersValidation(int goal, Map<Integer, Integer> ladders) {
+        ladders.forEach((key, value) -> {
+            if (value < 0 || key < 0)
+                throw new IllegalArgumentException("'ladders' key and value should be positive integer.");
+            if (value > goal || key > goal)
+                throw new IllegalArgumentException("'ladders' key and value should be less than 'goal'.");
+            if (key > value)
+                throw new IllegalArgumentException("'ladders' key should be less than value. (key:"+key+", value:"+value+")");
+        });
+    }
+
+
 }

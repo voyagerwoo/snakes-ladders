@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class Play {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Map<Integer, Integer> snakes = new HashMap<Integer, Integer>() {{
             put(99, 80);
             put(95, 75);
@@ -37,18 +37,19 @@ public class Play {
         SnakesLadders game = new SnakesLadders(2, 100, snakes, ladders);
 
 
-        for(int i=0; ;i++) {
-            int dies1 = dise();
-            int dise2 = dise();
-            System.out.println(i +": dise(" + dies1 +"," + dise2 + ") " + game.play(dies1, dise2));
-            if(game.isGameOver())
+        for (int i = 1; ; i++) {
+            int dice1 = dice();
+            int dice2 = dice();
+            Thread.sleep(300);
+            System.out.println(i + ": dice(" + dice1 + "," + dice2 + ") " + game.play(dice1, dice2));
+            if (game.isGameOver())
                 break;
         }
 
 
     }
 
-    private static int dise() {
+    private static int dice() {
         return new Random().nextInt(6) + 1;
     }
 }

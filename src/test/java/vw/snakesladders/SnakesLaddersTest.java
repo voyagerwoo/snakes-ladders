@@ -6,10 +6,115 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class SnakesLaddersTest {
+    @Test
+    void numOfPlayerShouldBePositiveInteger() {
+        assertThatThrownBy(() ->
+                new SnakesLadders(-1, 0, emptyMap(), emptyMap())
+        )
+                .isExactlyInstanceOf(IllegalArgumentException.class)
+                .hasMessage("'numOfPlayer' should be positive integer.");
+    }
+
+    @Test
+    void goalShouldBePositiveInteger() {
+        assertThatThrownBy(() ->
+                new SnakesLadders(2, -100, emptyMap(), emptyMap())
+        )
+                .isExactlyInstanceOf(IllegalArgumentException.class)
+                .hasMessage("'goal' should be positive integer.");
+    }
+
+    @Test
+    void snakeKeyAndValueShouldBePositiveInteger() {
+        assertThatThrownBy(() ->
+                {
+                    HashMap<Integer, Integer> snakes = new HashMap<Integer, Integer>() {{
+                        put(110, -10);
+                    }};
+                    new SnakesLadders(2, 100, snakes, emptyMap());
+                }
+        )
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("'snake' key and value should be positive integer.");
+    }
+
+    @Test
+    void snakeKeyAndValueShouldBeLessThanGoal() {
+        assertThatThrownBy(() ->
+                {
+                    HashMap<Integer, Integer> snakes = new HashMap<Integer, Integer>() {{
+                        put(110, 10);
+                    }};
+                    new SnakesLadders(2, 100, snakes, emptyMap());
+                }
+        )
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("'snake' key and value should be less than 'goal'.");
+    }
+
+    @Test
+    void snakeKeyShouldBeLargerThanValue() {
+        assertThatThrownBy(() ->
+                {
+                    HashMap<Integer, Integer> snakes = new HashMap<Integer, Integer>() {{
+                        put(10, 99);
+                    }};
+                    new SnakesLadders(2, 100, snakes, emptyMap());
+                }
+        )
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("'snake' key should be larger than value. (key:10, value:99)");
+    }
+
+
+    @Test
+    void laddersKeyAndValueShouldBePositiveInteger() {
+        assertThatThrownBy(() ->
+                {
+                    HashMap<Integer, Integer> ladders = new HashMap<Integer, Integer>() {{
+                        put(-10, 110);
+                    }};
+                    new SnakesLadders(2, 100, emptyMap(), ladders);
+                }
+        )
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("'ladders' key and value should be positive integer.");
+    }
+
+    @Test
+    void laddersKeyAndValueShouldBeLessThanGoal() {
+        assertThatThrownBy(() ->
+                {
+                    HashMap<Integer, Integer> ladders = new HashMap<Integer, Integer>() {{
+                        put(10, 110);
+                    }};
+                    new SnakesLadders(2, 100, emptyMap(), ladders);
+                }
+        )
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("'ladders' key and value should be less than 'goal'.");
+    }
+
+    @Test
+    void laddersKeyShouldBeLargerThanValue() {
+        assertThatThrownBy(() ->
+                {
+                    HashMap<Integer, Integer> ladders = new HashMap<Integer, Integer>() {{
+                        put(99, 23);
+                    }};
+                    new SnakesLadders(2, 100, emptyMap(), ladders);
+                }
+        )
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("'ladders' key should be less than value. (key:99, value:23)");
+    }
+
     @Test
     void playWith2PlayerWithoutSnakesAndLadders_firstPlay() {
         SnakesLadders game = getSnakesLaddersWithoutSnakesAndLadders();
